@@ -21,4 +21,6 @@ void __ok_after_store1(void *addr, int attr);
 void __ok_after_store2(void *addr, int attr);
 void __ok_after_store4(void *addr, int attr);
 void __ok_after_store8(void *addr, int attr);
+void __ok_func_entry(void *parentReturnAddr, char *funcName);
+void __ok_func_exit();
 }

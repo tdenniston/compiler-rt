@@ -53,3 +53,9 @@ extern "C" void __ok_after_store4(void *addr, int attr) {
 extern "C" void __ok_after_store8(void *addr, int attr) { 
     fprintf(stderr, "After store8, addr %p.\n", addr);
 }
+extern "C" void __ok_func_entry(void *parentReturnAddr, char *funcName) { 
+    fprintf(stderr, "Func entry, parent return addr %p func name %s.\n", parentReturnAddr, funcName);
+}
+extern "C" void __ok_func_exit() { 
+    fprintf(stderr, "Func exit.\n");
+}
