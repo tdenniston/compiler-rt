@@ -1,0 +1,2 @@
+COMPILER ?= LLVM
+COMPILER_HOME ?= ~/csi
