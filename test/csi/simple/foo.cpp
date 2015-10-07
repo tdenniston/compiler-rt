@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <inttypes.h>
 
-#include "empty_tool.h"
-
 char global_char = 1;
 short global_short = 2;
 int global_uint = 4;
