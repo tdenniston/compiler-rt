@@ -1,4 +1,4 @@
-TARGETS := fib-serial foo
+TARGETS := fib-serial foo memops
 
 default: $(TARGETS)
 
@@ -10,12 +10,19 @@ CXXFLAGS += $(EXTRA)
 
 fib-serial: fib-serial.o
 foo: foo.o empty_tool.o
+memops: memops.o counter_tool.o
 
 foo.o: foo.cpp
 	$(CXX) -O0 -c $(EXTRA) -fopenkimono $^ -o $@
 
+memops.o: memops.cpp
+	$(CXX) -c $(EXTRA) -fopenkimono -emit-llvm $^ -o $@
+
 empty_tool.o: empty_tool.c
-	$(CXX) -O3 -c $^ -o $@
+	$(CXX) -O3 -c -emit-llvm $^ -o $@
+
+counter_tool.o: counter_tool.cpp
+	$(CXX) -O3 -c -emit-llvm $^ -o $@
 
 empty_tool.ll: empty_tool.c
 	$(CXX) -O3 -S $(EXTRA) -emit-llvm $^ -o $@
@@ -31,7 +38,7 @@ empty_tool.ll: empty_tool.c
 	$(CXX) -S -O3 $^ -o $@
 
 %: %.o
-	$(CXX) $^ $(LDFLAGS) -O3 $(LDLIBS) -o $@
+	$(CXX) $^ $(LDFLAGS) -O3 -flto $(LDLIBS) -o $@
 
 clean:
 	-rm -f $(TARGETS) *.o *.s *.ll *.bc

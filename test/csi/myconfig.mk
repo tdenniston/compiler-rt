@@ -1,2 +1,3 @@
 COMPILER ?= LLVM
-COMPILER_HOME ?= ~/csi
+COMPILER_HOME ?= /usr/local
+LDFLAGS += -L/home/ec2-user/csi/lib
