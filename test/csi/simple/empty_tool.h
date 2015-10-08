@@ -1,6 +1,8 @@
 #include <inttypes.h>
 
 extern "C" {
+void __ok_init();
+
 void __ok_before_load1(void *addr, int attr);
 void __ok_before_load2(void *addr, int attr);
 void __ok_before_load4(void *addr, int attr);

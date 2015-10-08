@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+extern "C" void __ok_init() {
+    fprintf(stderr, "Initialize tool\n");
+}
 extern "C" void __ok_before_load1(void *addr, int attr) {
     fprintf(stderr, "Before load1, addr %p.\n", addr);
 }
