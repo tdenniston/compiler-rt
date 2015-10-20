@@ -16,19 +16,17 @@ int main(int argc, char *argv[]) {
 }
 
 void run_test() {
-    int x = rand();
+    int x = rand();  // Prevent the compiler from optimizing away the entire method
 
     volatile char a = 0;  // Force the compiler to use memory rather than registers
     volatile short b = 0;
     volatile int c = 0;
     volatile long d = 0;
 
-    for (int i = 0; i < NUM_MILLION_ITERATIONS; i++) {
-        for (int j = 0; j < 1000000; j++) {
-            a += x;
-            b += x;
-            c += x;
-            d += x;
-        }
+    for (int j = 0; j < NUM_MILLION_ITERATIONS * 1000000; j++) {
+        a += x;
+        b += x;
+        c += x;
+        d += x;
     }
 }
