@@ -18,13 +18,13 @@ foo.o: foo.cpp
 memops.o: memops.cpp
 	$(CXX) -c $(EXTRA) -fopenkimono -emit-llvm $^ -o $@
 
-empty_tool.o: empty_tool.c
+empty_tool.o: empty_tool.cpp
 	$(CXX) -O3 -c -emit-llvm $^ -o $@
 
 counter_tool.o: counter_tool.cpp
 	$(CXX) -O3 -c -emit-llvm $^ -o $@
 
-empty_tool.ll: empty_tool.c
+empty_tool.ll: empty_tool.cpp
 	$(CXX) -O3 -S $(EXTRA) -emit-llvm $^ -o $@
 
 # The right file extention for bitcode is *.ll
