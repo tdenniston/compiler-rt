@@ -15,7 +15,7 @@ CFLAGS += $(EXTRA)
 CXXFLAGS += $(EXTRA)
 
 fib-serial: fib-serial.o
-foo: foo.o $(TOOLKIT)/empty_tool.o
+foo: foo.o $(TOOLKIT)/print_tool.o
 memops: memops.o $(TOOLKIT)/counter_tool.o
 
 foo.o: foo.cpp

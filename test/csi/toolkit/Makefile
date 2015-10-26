@@ -1,6 +1,6 @@
 include ../common.mk
 
-TOOLS := empty_tool counter_tool
+TOOLS := print_tool counter_tool
 OBJECTS := $(patsubst %,%.o,$(TOOLS))
 
 all: $(TOOLS)
