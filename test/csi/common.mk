@@ -10,7 +10,8 @@ BASIC_CXXFLAGS=$(BASIC_CFLAGS)
 CFLAGS = $(BASIC_CFLAGS) -std=c11 # -flto
 CXXFLAGS = $(BASIC_CXXFLAGS) -std=c++11 # -flto
 
-LDLIBS = -lrt -ldl -lpthread # -flto 
+LDFLAGS = -B/usr/lib/gold-ld
+LDLIBS = -lrt -ldl -lpthread # -flto
 
 CC = $(COMPILER_HOME)/bin/clang
 CXX = $(COMPILER_HOME)/bin/clang++
