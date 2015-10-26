@@ -14,9 +14,14 @@ EXTRA = -mllvm -debug-only="csi_func"
 CFLAGS += $(EXTRA)
 CXXFLAGS += $(EXTRA)
 
+# By default link with the null tool.  To use another tool, do
+# e.g. 'make foo TOOL=print_tool'
+TOOL ?= null_tool
+TOOL_OBJ = $(patsubst %,$(TOOLKIT)/%.o,$(TOOL))
+
 fib-serial: fib-serial.o
-foo: foo.o $(TOOLKIT)/print_tool.o
-memops: memops.o $(TOOLKIT)/counter_tool.o
+foo: foo.o $(TOOL_OBJ)
+memops: memops.o $(TOOL_OBJ)
 
 foo.o: foo.cpp
 	$(CXX) -O0 -c $(EXTRA) -fcsi $^ -o $@
