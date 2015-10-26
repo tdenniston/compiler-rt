@@ -1,15 +1,21 @@
 TARGETS := fib-serial foo memops
+TOOLKIT = ../toolkit
 
 default: $(TARGETS)
+
+# Toolkit rules go before including 'common.mk' so that they are
+# preferentially matched.
+$(TOOLKIT)/%.o: $(TOOLKIT)/%.cpp
+	make -C $(TOOLKIT) $*
 
 include ../common.mk
 
 EXTRA = -v -mllvm -debug-only="csi_func"
 CFLAGS += $(EXTRA)
-CXXFLAGS += $(EXTRA) 
+CXXFLAGS += $(EXTRA)
 
 fib-serial: fib-serial.o
-foo: foo.o empty_tool.o
+foo: foo.o $(TOOLKIT)/empty_tool.o
 memops: memops.o counter_tool.o
 
 foo.o: foo.cpp
@@ -18,14 +24,8 @@ foo.o: foo.cpp
 memops.o: memops.cpp
 	$(CXX) -c $(EXTRA) -fcsi -emit-llvm $^ -o $@
 
-empty_tool.o: empty_tool.cpp
-	$(CXX) -O3 -c -emit-llvm $^ -o $@
-
 counter_tool.o: counter_tool.cpp
 	$(CXX) -O3 -c -emit-llvm $^ -o $@
-
-empty_tool.ll: empty_tool.cpp
-	$(CXX) -O3 -S $(EXTRA) -emit-llvm $^ -o $@
 
 # The right file extention for bitcode is *.ll
 %.ll: %.cpp
@@ -42,3 +42,4 @@ empty_tool.ll: empty_tool.cpp
 
 clean:
 	-rm -f $(TARGETS) *.o *.s *.ll *.bc
+	make -C $(TOOLKIT) clean
