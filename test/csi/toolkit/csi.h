@@ -7,7 +7,6 @@ extern "C" {
 
 #define WEAK __attribute__((weak))
 
-WEAK void __csi_destroy();
 WEAK void __csi_init();
 WEAK void __csi_before_load(void *addr, int num_bytes, int attr);
 WEAK void __csi_after_load(void *addr, int num_bytes, int attr);

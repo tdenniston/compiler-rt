@@ -2,14 +2,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern "C" {
+namespace {
 
-void __csi_destroy() {
+void destroy() {
     fprintf(stderr, "Destroy tool\n");
 }
+
+}
+
+extern "C" {
+
 void __csi_init() {
     fprintf(stderr, "Initialize tool\n");
-    atexit(__csi_destroy);
+    atexit(destroy);
 }
 void __csi_before_load(void *addr, int num_bytes, int attr) {
     fprintf(stderr, "Before load %p (%d bytes) attr %d\n", addr, num_bytes, attr);
