@@ -10,7 +10,7 @@ $(TOOLKIT)/%.o: $(TOOLKIT)/%.cpp
 
 include ../common.mk
 
-EXTRA = -v -mllvm -debug-only="csi_func"
+EXTRA = -mllvm -debug-only="csi_func"
 CFLAGS += $(EXTRA)
 CXXFLAGS += $(EXTRA)
 
