@@ -26,3 +26,4 @@ extern "C" void __csi_func_entry(void *parentReturnAddr, char *funcName) {
 }
 extern "C" void __csi_func_exit() {
 }
+extern "C" void __csi_bb_entry(int id, int attr) {}
