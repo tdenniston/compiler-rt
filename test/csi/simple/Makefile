@@ -1,17 +1,22 @@
-TARGETS := fib-serial foo memops
+TARGETS := fib-serial fib-cc foo memops
 
 default: $(TARGETS)
 
 include ../common.mk
 
-EXTRA = -v -mllvm -debug-only="csi_func"
+EXTRA = -g -v -mllvm -debug-only="csi_func"
 CFLAGS += $(EXTRA)
 CXXFLAGS += $(EXTRA)
 LTOFLAGS = -B/usr/lib/gold-ld -flto
 
-fib-serial: fib-serial.o
+fib-serial: fib-serial.o empty_tool.o
+fib-cc: fib-serial.o code_coverage_tool.o
+	$(CXX) $^ $(LDFLAGS) -O3 $(LTOFLAGS) $(LDLIBS) -o $@
 foo: foo.o empty_tool.o
 memops: memops.o counter_tool.o
+
+fib-serial.o: fib-serial.cpp
+	$(CXX) -O0 -c $(EXTRA) -fcsi $^ -o $@
 
 foo.o: foo.cpp
 	$(CXX) -O0 -c $(EXTRA) -fcsi $^ -o $@
@@ -23,6 +28,9 @@ empty_tool.o: empty_tool.cpp
 	$(CXX) -O3 -c -emit-llvm $^ -o $@
 
 counter_tool.o: counter_tool.cpp
+	$(CXX) -O3 -c -emit-llvm $^ -o $@
+
+code_coverage_tool.o: code_coverage_tool.cpp
 	$(CXX) -O3 -c -emit-llvm $^ -o $@
 
 empty_tool.ll: empty_tool.cpp
