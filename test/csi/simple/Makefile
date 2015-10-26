@@ -16,16 +16,13 @@ CXXFLAGS += $(EXTRA)
 
 fib-serial: fib-serial.o
 foo: foo.o $(TOOLKIT)/empty_tool.o
-memops: memops.o counter_tool.o
+memops: memops.o $(TOOLKIT)/counter_tool.o
 
 foo.o: foo.cpp
 	$(CXX) -O0 -c $(EXTRA) -fcsi $^ -o $@
 
 memops.o: memops.cpp
 	$(CXX) -c $(EXTRA) -fcsi -emit-llvm $^ -o $@
-
-counter_tool.o: counter_tool.cpp
-	$(CXX) -O3 -c -emit-llvm $^ -o $@
 
 # The right file extention for bitcode is *.ll
 %.ll: %.cpp
