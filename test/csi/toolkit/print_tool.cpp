@@ -16,6 +16,11 @@ void __csi_init() {
     fprintf(stderr, "Initialize tool\n");
     atexit(destroy);
 }
+
+void __csi_module_init() {
+    fprintf(stderr, "Initialize module.\n");
+}
+
 void __csi_before_load(void *addr, int num_bytes, int attr) {
     fprintf(stderr, "Before load %p (%d bytes) attr %d\n", addr, num_bytes, attr);
 }

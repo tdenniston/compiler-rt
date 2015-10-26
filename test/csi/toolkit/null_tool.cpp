@@ -3,6 +3,7 @@
 extern "C" {
 
 WEAK void __csi_init() {}
+WEAK void __csi_module_init() {}
 WEAK void __csi_before_load(void *addr, int num_bytes, int attr) {}
 WEAK void __csi_after_load(void *addr, int num_bytes, int attr) {}
 WEAK void __csi_before_store(void *addr, int num_bytes, int attr) {}
