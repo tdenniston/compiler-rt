@@ -1,4 +1,4 @@
-CXXFLAGS = -std=c++11 -fPIE -g -Wall -Werror -fno-builtin -msse3 -DSANITIZER_DEBUG=$(DEBUG) -DTSAN_CONTAINS_UBSAN=0
+CXXFLAGS = -std=c++11 -fPIE -g -Wall -Werror -fno-builtin -msse3 -DSANITIZER_DEBUG=0 -DTSAN_CONTAINS_UBSAN=0
 CLANG=clang
 ifeq ($(DEBUG), 0)
   CXXFLAGS += -O3
@@ -42,13 +42,13 @@ LIBTSAN_OBJ=$(patsubst %.cc,%.o,$(LIBTSAN_SRC)) \
 	    $(patsubst $(INTERCEPTION)/%.cc,%.o,$(INTERCEPTION_SRC)) \
 	    $(patsubst $(COMMON)/%.cc,%.o,$(COMMON_SRC))
 
-%_linux.o: %_linux.cc Makefile.old $(LIBTSAN_HEADERS)
+%_linux.o: %_linux.cc Makefile $(LIBTSAN_HEADERS)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $<
-%.o: %.cc Makefile.old $(LIBTSAN_HEADERS)
+%.o: %.cc Makefile $(LIBTSAN_HEADERS)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(NO_SYSROOT) -c $<
-%.o: $(INTERCEPTION)/%.cc Makefile.old $(LIBTSAN_HEADERS)
+%.o: $(INTERCEPTION)/%.cc Makefile $(LIBTSAN_HEADERS)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
-%.o: $(COMMON)/%.cc Makefile.old $(LIBTSAN_HEADERS)
+%.o: $(COMMON)/%.cc Makefile $(LIBTSAN_HEADERS)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 %.o: %.S
 	$(CXX) $(INCLUDES) -o $@ -c $<
