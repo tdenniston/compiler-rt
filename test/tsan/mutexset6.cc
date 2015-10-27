@@ -9,7 +9,7 @@ pthread_rwlock_t mtx3;
 void *Thread1(void *x) {
   barrier_wait(&barrier);
   pthread_mutex_lock(&mtx1);
-  Global++;
+  Global = 1;
   pthread_mutex_unlock(&mtx1);
   return NULL;
 }
@@ -19,7 +19,7 @@ void *Thread2(void *x) {
   pthread_mutex_unlock(&mtx1);
   pthread_spin_lock(&mtx2);
   pthread_rwlock_rdlock(&mtx3);
-  Global--;
+  Global = 2;
   pthread_spin_unlock(&mtx2);
   pthread_rwlock_unlock(&mtx3);
   barrier_wait(&barrier);
