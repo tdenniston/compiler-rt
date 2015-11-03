@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Define any additional CFLAGS/LDFLAGS needed in config.sh; they'll be imported
+# here, and then the default flags will be appended.
+if [ -e config.sh ];
+then
+  eval `cat ./config.sh`
+fi;
+
 ulimit -s 8192
 set -e # fail on any error
 
@@ -12,8 +19,8 @@ TSAN_DIR=$(dirname $0)/../../lib/tsan
 : ${FILECHECK:=FileCheck}
 
 # TODO: add testing for all of -O0...-O3
-CFLAGS="-fsanitize=thread -O2 -g -Wall"
-LDFLAGS="-pthread -ldl -lrt -lm -Wl,--whole-archive $TSAN_DIR/rtl/libtsan.a -Wl,--no-whole-archive"
+CFLAGS=$CFLAGS" -fcsi -O0 -g -Wall"
+LDFLAGS=$LDFLAGS" -pthread -ldl -lrt -lm -Wl,--whole-archive $TSAN_DIR/rtl/libtsan.a -Wl,--no-whole-archive"
 
 test_file() {
   SRC=$1
