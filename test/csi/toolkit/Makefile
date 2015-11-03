@@ -9,12 +9,8 @@ OBJECTS := $(patsubst %,%.o,$(TOOLS))
 
 all: $(TOOLS)
 
-csi_rt.o: csi_rt.cpp
-	$(CXX) -O3 -c -emit-llvm $^ -o $@
-
-null_tool.o: null_tool.cpp csi_rt.o
+null_tool.o: null_tool.cpp
 	$(CXX) -O3 -c -emit-llvm $< -o $@
-	$(LINK) $@ csi_rt.o -o $@
 
 $(OBJECTS): %.o: %.cpp null_tool.o
 	$(CXX) -O3 -c -emit-llvm $< -o $@
@@ -27,4 +23,4 @@ $(OBJECTS): %.o: %.cpp null_tool.o
 %: %.o ;
 
 clean:
-	-rm -f null_tool null_tool.o csi_rt.o $(TOOLS) $(OBJECTS)
+	-rm -f null_tool null_tool.o $(TOOLS) $(OBJECTS)
