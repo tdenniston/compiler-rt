@@ -15,7 +15,7 @@ void destroy() {
 
 extern "C" {
 
-void __csi_init() {
+void __csi_init(csi_info_t info) {
     atexit(destroy);
 }
 
