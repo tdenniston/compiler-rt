@@ -10,7 +10,7 @@ OBJECTS := $(patsubst %,%.o,$(TOOLS))
 all: $(TOOLS)
 
 null_tool.o: null_tool.cpp
-	$(CXX) -O3 -c -emit-llvm $^ -o $@
+	$(CXX) -O3 -c -emit-llvm $< -o $@
 
 $(OBJECTS): %.o: %.cpp null_tool.o
 	$(CXX) -O3 -c -emit-llvm $< -o $@
