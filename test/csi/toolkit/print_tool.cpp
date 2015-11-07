@@ -12,13 +12,13 @@ void destroy() {
 
 extern "C" {
 
-void __csi_init() {
-    fprintf(stderr, "Initialize tool\n");
+void __csi_init(csi_info_t info) {
+    fprintf(stderr, "Initialize tool, %d modules\n", info.num_modules);
     atexit(destroy);
 }
 
-void __csi_module_init() {
-    fprintf(stderr, "Initialize module.\n");
+void __csi_module_init(csi_module_info_t info) {
+    fprintf(stderr, "Initialize module, %lu basic blocks.\n", info.num_basic_blocks);
 }
 
 void __csi_before_load(void *addr, int num_bytes, int attr) {

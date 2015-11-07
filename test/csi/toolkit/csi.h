@@ -9,12 +9,20 @@
 extern "C" {
 
 typedef struct {
+  uint64_t num_basic_blocks;
+} csi_module_info_t;
+
+typedef struct {
+  uint32_t num_modules;
+} csi_info_t;
+
+typedef struct {
   uint32_t module_id;
   uint64_t id;
 } csi_id_t;
 
-WEAK void __csi_init();
-WEAK void __csi_module_init();
+WEAK void __csi_init(csi_info_t info);
+WEAK void __csi_module_init(csi_module_info_t info);
 WEAK void __csi_before_load(void *addr, int num_bytes, int attr);
 WEAK void __csi_after_load(void *addr, int num_bytes, int attr);
 WEAK void __csi_before_store(void *addr, int num_bytes, int attr);
