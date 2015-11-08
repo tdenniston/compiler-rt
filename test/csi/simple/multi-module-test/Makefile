@@ -5,13 +5,19 @@ TOOLKIT = ../../toolkit
 $(TOOLKIT)/%.o: $(TOOLKIT)/%.cpp
 	make -C $(TOOLKIT) $*
 
+# By default link with the null tool.  To use another tool, do
+# e.g. 'make foo TOOL=print_tool'
+TOOL ?= null_tool
+TOOL_OBJ = $(patsubst %,$(TOOLKIT)/%.o,$(TOOL))
+
+
 include ../../common.mk
 
 OBJECTS=a.o b.o
 
 default: main
 
-main: main.o $(OBJECTS) $(TOOLKIT)/print_tool.o
+main: main.o $(OBJECTS) $(TOOL_OBJ)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -flto $^ -o $@
 
 %.o: %.cpp
