@@ -10,6 +10,8 @@ $(TOOLKIT)/%.o: $(TOOLKIT)/%.cpp
 TOOL ?= null_tool
 TOOL_OBJ = $(patsubst %,$(TOOLKIT)/%.o,$(TOOL))
 
+#COV_FLAGS = -fprofile-instr-generate -fcoverage-mapping
+COV_FLAGS=
 
 include ../../common.mk
 
@@ -18,10 +20,13 @@ OBJECTS=a.o b.o
 default: main
 
 main: main.o $(OBJECTS) $(TOOL_OBJ)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -flto $^ -o $@
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -flto $(COV_FLAGS) $^ -o $@
 
 %.o: %.cpp
-	$(CXX) -c $(EXTRA) -fcsi -emit-llvm $^ -o $@
+	$(CXX) -c $(EXTRA) -fcsi -emit-llvm $(COV_FLAGS) $^ -o $@
+
+main.o: main.cpp
+	$(CXX) -c $(EXTRA) -fcsi -emit-llvm $(COV_FLAGS) $^ -o $@
 
 clean:
 	rm -f main *.o
