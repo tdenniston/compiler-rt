@@ -9,6 +9,7 @@
 extern "C" {
 
 typedef struct {
+  uint32_t module_id;
   uint64_t num_basic_blocks;
 } csi_module_info_t;
 

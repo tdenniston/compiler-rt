@@ -18,7 +18,7 @@ void __csi_init(csi_info_t info) {
 }
 
 void __csi_module_init(csi_module_info_t info) {
-    fprintf(stderr, "Initialize module, %lu basic blocks.\n", info.num_basic_blocks);
+    fprintf(stderr, "Initialize module id %d, %lu basic blocks.\n", info.module_id, info.num_basic_blocks);
 }
 
 void __csi_before_load(void *addr, int num_bytes, int attr) {
