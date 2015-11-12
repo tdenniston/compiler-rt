@@ -26,10 +26,10 @@ foo: foo.o $(TOOL_OBJ)
 memops: memops.o $(TOOL_OBJ)
 
 foo.o: foo.cpp
-	$(CXX) -O0 -c $(EXTRA) -fcsi -emit-llvm $^ -o $@
+	$(CXX) -O0 -g -c $(EXTRA) -fcsi -emit-llvm $^ -o $@
 
 memops.o: memops.cpp
-	$(CXX) -O3 -c $(EXTRA) -fcsi -emit-llvm $^ -o $@
+	$(CXX) -O3 -g -c $(EXTRA) -fcsi -emit-llvm $^ -o $@
 
 # The right file extention for bitcode is *.ll
 %.ll: %.cpp
