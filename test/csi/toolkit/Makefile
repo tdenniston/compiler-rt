@@ -4,7 +4,7 @@ CXXFLAGS += -Wno-error
 
 LINK ?= $(COMPILER_HOME)/bin/llvm-link
 
-TOOLS := print_tool counter_tool code-coverage
+TOOLS := print_tool counter_tool code-coverage call-graph
 OBJECTS := $(patsubst %,%.o,$(TOOLS))
 
 all: $(TOOLS)
@@ -13,7 +13,7 @@ null_tool.o: null_tool.cpp
 	$(CXX) -O3 -c -emit-llvm $< -o $@
 
 $(OBJECTS): %.o: %.cpp null_tool.o
-	$(CXX) -O3 -c -emit-llvm $< -o $@
+	$(CXX) -std=c++11 -O3 -c -emit-llvm $< -o $@
 	$(LINK) $@ null_tool.o -o $@
 
 %.ll: %.cpp
