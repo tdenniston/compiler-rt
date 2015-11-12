@@ -88,7 +88,7 @@ void __csi_module_init(csi_module_info_t info) {
     bitsets->at(info.module_id).allocate(info.num_basic_blocks);
 }
 
-void __csi_bb_entry(csi_id_t id) {
+void __csi_bb_entry(csi_id_t id, const char *filename, uint32_t linestart, uint32_t lineend) {
     assert(bitsets && id.module_id < bitsets->size());
     assert(id.id < (*bitsets)[id.module_id].size());
     (*bitsets)[id.module_id].set(id.id);

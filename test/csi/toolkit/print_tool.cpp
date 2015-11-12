@@ -39,8 +39,9 @@ void __csi_func_entry(void *parentReturnAddr, char *funcName) {
 void __csi_func_exit() {
     fprintf(stderr, "Func exit\n");
 }
-void __csi_bb_entry(csi_id_t id) {
-    fprintf(stderr, "Basic block entry %d:%ld\n", id.module_id, id.id);
+void __csi_bb_entry(csi_id_t id, const char *filename, uint32_t linestart, uint32_t lineend) {
+    fprintf(stderr, "Basic block entry %d:%ld (%s: %d -- %d)\n", id.module_id, id.id,
+            filename, linestart, lineend);
 }
 void __csi_bb_exit() {
     fprintf(stderr, "Basic block exit\n");
