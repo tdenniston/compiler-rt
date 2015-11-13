@@ -14,6 +14,17 @@ void foo(int i) {
     global += i;
 }
 
+void foo2(int i) {
+    for (int j = 0; j < i; j++)
+        global_char++;
+    printf("inside foo2(%d)\n", i);
+}
+
+void foo3(int n) {
+    // for (int i = 0; i < n; i++)
+        // foo(i);
+}
+
 // int main(int argc, char *argv[]) {
 int main(void) {
     
@@ -27,6 +38,8 @@ int main(void) {
 
   // n = atoi(argv[1]);
   foo(99);
+  foo2(100);
+  foo3(10);
 
   return 0;
 }

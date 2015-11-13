@@ -33,8 +33,8 @@ void __csi_before_store(void *addr, int num_bytes, int attr) {
 void __csi_after_store(void *addr, int num_bytes, int attr) {
     fprintf(stderr, "After store %p (%d bytes) attr %d\n", addr, num_bytes, attr);
 }
-void __csi_func_entry(void *parentReturnAddr, char *funcName) {
-    fprintf(stderr, "Func entry, parent return addr %p func name %s.\n", parentReturnAddr, funcName);
+void __csi_func_entry(void *function, void *parentReturnAddr, char *funcName) {
+    fprintf(stderr, "Func entry, function %p, parent return addr %p func name %s.\n", function, parentReturnAddr, funcName);
 }
 void __csi_func_exit() {
     fprintf(stderr, "Func exit\n");

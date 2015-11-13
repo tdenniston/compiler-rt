@@ -12,7 +12,7 @@ $(TOOLKIT)/%.o: $(TOOLKIT)/%.cpp
 
 include ../common.mk
 
-EXTRA = -mllvm -debug-only="csi_func"
+EXTRA = -mllvm -debug-only="csi_func" -emit-llvm -fcsi
 CFLAGS += $(EXTRA)
 CXXFLAGS += $(EXTRA)
 
@@ -26,14 +26,14 @@ foo: foo.o $(TOOL_OBJ)
 memops: memops.o $(TOOL_OBJ)
 
 foo.o: foo.cpp
-	$(CXX) -O0 -c $(EXTRA) -fcsi -emit-llvm $^ -o $@
+	$(CXX) -O3 -c $(EXTRA) $^ -o $@
 
 memops.o: memops.cpp
-	$(CXX) -O3 -c $(EXTRA) -fcsi -emit-llvm $^ -o $@
+	$(CXX) -O3 -c $(EXTRA) -$^ -o $@
 
 # The right file extention for bitcode is *.ll
 %.ll: %.cpp
-	$(CXX) -O0 -S $(EXTRA) -fcsi -emit-llvm $^ -o $@
+	$(CXX) -O0 -S $(EXTRA)  $^ -o $@
 
 %.bc: %.cpp
 	/usr/local/llvm-cilk/bin/clang++ -O0 -S -fsanitize=thread -emit-llvm -c $^ -o $@
