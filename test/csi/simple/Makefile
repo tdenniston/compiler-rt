@@ -29,11 +29,11 @@ foo.o: foo.cpp
 	$(CXX) -O3 -c $(EXTRA) $^ -o $@
 
 memops.o: memops.cpp
-	$(CXX) -O3 -c $(EXTRA) -$^ -o $@
+	$(CXX) -O3 -c $(EXTRA) $^ -o $@
 
 # The right file extention for bitcode is *.ll
 %.ll: %.cpp
-	$(CXX) -O0 -S $(EXTRA)  $^ -o $@
+	$(CXX) -O0 -S $(EXTRA) $^ -o $@
 
 %.bc: %.cpp
 	/usr/local/llvm-cilk/bin/clang++ -O0 -S -fsanitize=thread -emit-llvm -c $^ -o $@
