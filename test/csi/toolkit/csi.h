@@ -3,10 +3,18 @@
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+#define EXTERN_C extern "C" {
+#define EXTERN_C_END }
+#else
+#define EXTERN_C
+#define EXTERN_C_END
+#endif
+
 #define WEAK __attribute__((weak))
 
 // API function signatures
-extern "C" {
+EXTERN_C
 
 typedef struct {
   uint32_t module_id;
@@ -32,5 +40,7 @@ WEAK void __csi_func_entry(void *function, void *parentReturnAddr, char *funcNam
 WEAK void __csi_func_exit();
 WEAK void __csi_bb_entry(csi_id_t id);
 WEAK void __csi_bb_exit();
-} // extern "C"
+
+EXTERN_C_END
+
 #endif

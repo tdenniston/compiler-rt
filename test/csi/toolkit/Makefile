@@ -12,6 +12,10 @@ all: $(TOOLS)
 null_tool.o: null_tool.cpp
 	$(CXX) -O3 -c -emit-llvm $< -o $@
 
+prof_lite.o: null_tool.o prof_lite/
+	$(CC) -O3 -Wall -g -std=gnu11 -c -emit-llvm prof_lite/cilkprof.c -o $@
+	$(LINK) $@ null_tool.o -o $@
+
 $(OBJECTS): %.o: %.cpp null_tool.o
 	$(CXX) -std=c++11 -O3 -c -emit-llvm $< -o $@
 	$(LINK) $@ null_tool.o -o $@
@@ -23,4 +27,4 @@ $(OBJECTS): %.o: %.cpp null_tool.o
 %: %.o ;
 
 clean:
-	-rm -f null_tool null_tool.o $(TOOLS) $(OBJECTS)
+	-rm -f prof_lite.o null_tool null_tool.o $(TOOLS) $(OBJECTS)

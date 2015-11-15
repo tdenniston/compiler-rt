@@ -15,15 +15,19 @@ include ../common.mk
 EXTRA = -mllvm -debug-only="csi_func" -emit-llvm -fcsi
 CFLAGS += $(EXTRA)
 CXXFLAGS += $(EXTRA)
+LDFLAGS += -lrt
 
 # By default link with the null tool.  To use another tool, do
 # e.g. 'make foo TOOL=print_tool'
 TOOL ?= null_tool
 TOOL_OBJ = $(patsubst %,$(TOOLKIT)/%.o,$(TOOL))
 
-fib-serial: fib-serial.o
+fib-serial: fib-serial.o $(TOOL_OBJ)
 foo: foo.o $(TOOL_OBJ)
 memops: memops.o $(TOOL_OBJ)
+
+fib-serial.o: fib-serial.cpp
+	$(CXX) -O3 -c $(EXTRA) $^ -o $@
 
 foo.o: foo.cpp
 	$(CXX) -O3 -c $(EXTRA) $^ -o $@
