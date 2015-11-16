@@ -12,10 +12,9 @@ $(TOOLKIT)/%.o: $(TOOLKIT)/%.cpp
 
 include ../common.mk
 
-EXTRA = -mllvm -debug-only="csi_func" -emit-llvm -fcsi
+EXTRA = -mllvm -debug-only="csi_func" -emit-llvm -fcsi -g -O3
 CFLAGS += $(EXTRA)
 CXXFLAGS += $(EXTRA)
-LDFLAGS += -lrt
 
 # By default link with the null tool.  To use another tool, do
 # e.g. 'make foo TOOL=print_tool'
@@ -27,13 +26,13 @@ foo: foo.o $(TOOL_OBJ)
 memops: memops.o $(TOOL_OBJ)
 
 fib-serial.o: fib-serial.cpp
-	$(CXX) -O3 -c $(EXTRA) $^ -o $@
+	$(CXX) -c $(EXTRA) $^ -o $@
 
 foo.o: foo.cpp
-	$(CXX) -O3 -c $(EXTRA) $^ -o $@
+	$(CXX) -c $(EXTRA) $^ -o $@
 
 memops.o: memops.cpp
-	$(CXX) -O3 -c $(EXTRA) $^ -o $@
+	$(CXX) -c $(EXTRA) $^ -o $@
 
 # The right file extention for bitcode is *.ll
 %.ll: %.cpp
