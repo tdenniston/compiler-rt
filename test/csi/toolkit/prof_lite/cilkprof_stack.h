@@ -15,7 +15,7 @@
 /* #include "strand_count.h" */
 /* #include "strand_time.h" */
 // #include "strand_time_rdtsc.h"
-#include "strand_count.h"
+#include "strand_time_rdtsc.h"
 #include "cc_hashtable.h"
 #if COMPUTE_STRAND_DATA
 #include "strand_hashtable.h"
