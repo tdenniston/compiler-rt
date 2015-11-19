@@ -1,6 +1,6 @@
 .SUFFIXES:
 
-TARGETS := mini_bench_local mini_bench_shared start_many_threads
+TARGETS := mini_bench_local mini_bench_shared start_many_threads mini_bench_increments
 
 default: $(TARGETS)
 
