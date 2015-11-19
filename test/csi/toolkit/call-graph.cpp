@@ -49,7 +49,7 @@ void __csi_init(csi_info_t info) {
     CG = new std::map<std::string, std::set<std::string> >();
 }
 
-void __csi_func_entry(void *parentReturnAddr, char *funcName) {
+void __csi_func_entry(void *function, void *parentReturnAddr, char *funcName) {
     assert(call_stack);
     if (!call_stack->empty()) {
         add_call_edge(call_stack->top().c_str(), funcName);

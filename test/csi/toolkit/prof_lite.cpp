@@ -23,7 +23,8 @@ namespace {
 }
 
 extern "C" {
-    void __csi_init(csi_info_t info) {
+    // void __csi_init(csi_info_t info) {
+    void __csi_init(uint32_t num_modules) {
         atexit(destroy);
     }
 
