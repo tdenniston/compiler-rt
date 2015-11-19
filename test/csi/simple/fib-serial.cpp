@@ -21,29 +21,32 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int fib(int n) { 
-
+int fib(int n, int work) { 
   if (n < 2) { 
     return (n);
   } else {
     int x, y;
-    x = fib(n - 1);
-    y = fib(n - 2);
+    x = fib(n - 1, work);
+    y = fib(n - 2, work);
+    volatile int a = 0;
+    for (int i = 0; i < work; i++)
+        a += i;
     return (x + y);
   }
 }
 
 int main(int argc, char *argv[]) {
 
-  int n, result;
+  int n, work, result;
 
-  if (argc != 2) {
+  if (argc != 3) {
     fprintf(stderr, "Usage: fib [<cilk options>] <n>\n");
     exit(1); 
   }
 
   n = atoi(argv[1]);
-  result = fib(n);
+  work = atoi(argv[2]);
+  result = fib(n, work);
 
   printf("Result: %d\n", result);
 
