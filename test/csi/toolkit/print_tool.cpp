@@ -23,18 +23,19 @@ void __csi_module_init(uint32_t module_id, uint64_t num_basic_blocks) {
     fprintf(stderr, "Initialize module id %d, %lu basic blocks.\n", module_id, num_basic_blocks);
 }
 
-void __csi_before_load(void *addr, int num_bytes, int attr) {
-    fprintf(stderr, "Before load %p (%d bytes) attr %d\n", addr, num_bytes, attr);
+void __csi_before_load(void *addr, int num_bytes, unsigned unused, bool unused2, bool unused3, bool read_before_write_in_bb) {
+    fprintf(stderr, "Before load %p (%d bytes) unused %d, unused2 %d, unused3 %d, read_before_write_in_bb %d\n", addr, num_bytes, unused, unused2, unused3, read_before_write_in_bb);
 }
-void __csi_after_load(void *addr, int num_bytes, int attr) {
-    fprintf(stderr, "After load %p (%d bytes) attr %d\n", addr, num_bytes, attr);
+void __csi_after_load(void *addr, int num_bytes, unsigned unused, bool unused2, bool unused3, bool read_before_write_in_bb) {
+    fprintf(stderr, "After load %p (%d bytes) unused %d, unused2 %d, unused3 %d, read_before_write_in_bb %d\n", addr, num_bytes, unused, unused2, unused3, read_before_write_in_bb);
 }
-void __csi_before_store(void *addr, int num_bytes, int attr) {
-    fprintf(stderr, "Before store %p (%d bytes) attr %d\n", addr, num_bytes, attr);
+void __csi_before_store(void *addr, int num_bytes, unsigned unused, bool unused2, bool unused3, bool read_before_write_in_bb) {
+    fprintf(stderr, "Before store %p (%d bytes) unused %d, unused2 %d, unused3 %d, read_before_write_in_bb %d\n", addr, num_bytes, unused, unused2, unused3, read_before_write_in_bb);
 }
-void __csi_after_store(void *addr, int num_bytes, int attr) {
-    fprintf(stderr, "After store %p (%d bytes) attr %d\n", addr, num_bytes, attr);
+void __csi_after_store(void *addr, int num_bytes, unsigned unused, bool unused2, bool unused3, bool read_before_write_in_bb) {
+    fprintf(stderr, "After store %p (%d bytes) unused %d, unused2 %d, unused3 %d, read_before_write_in_bb %d\n", addr, num_bytes, unused, unused2, unused3, read_before_write_in_bb);
 }
+
 void __csi_func_entry(void *function, void *parentReturnAddr, char *funcName) {
     fprintf(stderr, "Func entry, function %p, parent return addr %p func name %s.\n", function, parentReturnAddr, funcName);
 }
