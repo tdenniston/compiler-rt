@@ -15,15 +15,16 @@ void destroy() {
 
 extern "C" {
 
-void __csi_init(csi_info_t info) {
+// void __csi_init(csi_info_t info) {
+void __csi_init(uint32_t num_modules){
     atexit(destroy);
 }
 
-void __csi_before_load(void *addr, int num_bytes, int attr) {
+void __csi_before_load(void *addr, int num_bytes, unsigned unused, bool unused2, bool unused3, bool read_before_write_in_bb) {
     times_accessed_by_size[__builtin_ctz(num_bytes)]++;
 }
 
-void __csi_before_store(void *addr, int num_bytes, int attr) {
+void __csi_before_store(void *addr, int num_bytes, unsigned unused, bool unused2, bool unused3, bool read_before_write_in_bb) {
     times_accessed_by_size[__builtin_ctz(num_bytes)]++;
 }
 

@@ -78,20 +78,23 @@ void destroy() {
 
 extern "C" {
 
-void __csi_init(csi_info_t info) {
+// void __csi_init(csi_info_t info) {
+void __csi_init(uint32_t num_modules) {
     atexit(destroy);
-    bitsets = new std::vector<Bitset>(info.num_modules);
+    bitsets = new std::vector<Bitset>(num_modules);
 }
 
-void __csi_module_init(csi_module_info_t info) {
-    assert(bitsets && info.module_id < bitsets->size());
-    bitsets->at(info.module_id).allocate(info.num_basic_blocks);
+// void __csi_module_init(csi_module_info_t info) {
+void __csi_module_init(uint32_t module_id, uint64_t num_basic_blocks) {
+    assert(bitsets && module_id < bitsets->size());
+    bitsets->at(module_id).allocate(num_basic_blocks);
 }
 
-void __csi_bb_entry(csi_id_t id) {
-    assert(bitsets && id.module_id < bitsets->size());
-    assert(id.id < (*bitsets)[id.module_id].size());
-    (*bitsets)[id.module_id].set(id.id);
+// void __csi_bb_entry(csi_id_t id) {
+void __csi_bb_entry(uint32_t module_id, uint64_t id) {
+    assert(bitsets && module_id < bitsets->size());
+    assert(id < (*bitsets)[module_id].size());
+    (*bitsets)[module_id].set(id);
 }
 
 } // extern "C"
