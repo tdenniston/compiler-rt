@@ -5,12 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define NUM_MILLION_ITERATIONS 50  // how many million iterations to run
+#define NUM_BILLION_ITERATIONS 1l  // how many billion iterations to run
 
 void run_test();
 
 int main(int argc, char *argv[]) {
-    printf("Running %dM iterations\n", NUM_MILLION_ITERATIONS);
+    printf("Running %ldB iterations\n", NUM_BILLION_ITERATIONS);
     run_test();
     return 0;
 }
@@ -23,7 +23,7 @@ void run_test() {
     volatile int c = 0;
     volatile long d = 0;
 
-    for (int j = 0; j < NUM_MILLION_ITERATIONS * 1000000; j++) {
+    for (long j = 0; j < NUM_BILLION_ITERATIONS * 1000000000l; j++) {
         a += x;
         b += x;
         c += x;
