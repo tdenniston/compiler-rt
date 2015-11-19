@@ -10,6 +10,9 @@ default: $(TARGETS)
 $(TOOLKIT)/%.o: $(TOOLKIT)/%.cpp
 	make -C $(TOOLKIT) $*
 
+$(TOOLKIT)/%.o: $(TOOLKIT)/%.c
+	make -C $(TOOLKIT) $*
+
 include ../common.mk
 
 EXTRA = -emit-llvm -fcsi -O3
@@ -20,6 +23,10 @@ CXXFLAGS += $(EXTRA)
 # e.g. 'make foo TOOL=print_tool'
 TOOL ?= null_tool
 TOOL_OBJ = $(patsubst %,$(TOOLKIT)/%.o,$(TOOL))
+
+ifeq ($(TOOL), call-graph)
+LDFLAGS += `pkg-config --libs --cflags glib-2.0`
+endif
 
 fib-serial: fib-serial.o $(TOOL_OBJ)
 foo: foo.o $(TOOL_OBJ)

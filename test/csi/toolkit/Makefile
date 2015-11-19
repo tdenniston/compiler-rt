@@ -4,7 +4,7 @@ CXXFLAGS += -Wno-error
 
 LINK ?= $(COMPILER_HOME)/bin/llvm-link
 
-TOOLS := print_tool counter_tool code-coverage call-graph instrument_function prof_lite props_tool
+TOOLS := print_tool counter_tool code-coverage instrument_function prof_lite props_tool
 OBJECTS := $(patsubst %,%.o,$(TOOLS))
 
 all: $(TOOLS)
@@ -14,6 +14,10 @@ null_tool.o: null_tool.cpp
 
 cilkprof.o: null_tool.o cilkprof/
 	$(CC) -O3 -Wall -g -std=gnu11 -c -emit-llvm cilkprof/cilkprof.c -o $@
+	$(LINK) $@ null_tool.o -o $@
+
+call-graph.o: call-graph.c null_tool.o
+	$(CC) -std=c99 -O3 `pkg-config --libs --cflags glib-2.0` -c -emit-llvm $< -o $@
 	$(LINK) $@ null_tool.o -o $@
 
 $(OBJECTS): %.o: %.cpp null_tool.o

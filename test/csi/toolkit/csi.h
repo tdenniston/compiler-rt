@@ -9,6 +9,7 @@
 #else
 #define EXTERN_C
 #define EXTERN_C_END
+#include <stdbool.h> // for C99 bool type
 #endif
 
 #define WEAK __attribute__((weak))
