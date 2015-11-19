@@ -12,7 +12,7 @@ $(TOOLKIT)/%.o: $(TOOLKIT)/%.cpp
 
 include ../common.mk
 
-EXTRA = -mllvm -debug-only="csi_func" -emit-llvm -fcsi -g -O3
+EXTRA = -mllvm -debug-only="csi_func" -emit-llvm -fcsi -O3
 CFLAGS += $(EXTRA)
 CXXFLAGS += $(EXTRA)
 

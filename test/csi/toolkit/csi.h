@@ -30,12 +30,21 @@ typedef struct {
   uint64_t id;
 } csi_id_t;
 
+typedef struct {
+  // Placeholders just to make sure the compiler can optimize this stuff away.
+  // DD: I figure it's good to include these as a just-in-case, since the
+  // paper API includes these params of this type.
+  unsigned unused;
+  bool unused2, unused3;
+  bool read_before_write_in_bb;
+} csi_acc_prop_t;
+
 WEAK void __csi_init(csi_info_t info);
 WEAK void __csi_module_init(csi_module_info_t info);
-WEAK void __csi_before_load(void *addr, int num_bytes, int attr);
-WEAK void __csi_after_load(void *addr, int num_bytes, int attr);
-WEAK void __csi_before_store(void *addr, int num_bytes, int attr);
-WEAK void __csi_after_store(void *addr, int num_bytes, int attr);
+WEAK void __csi_before_load(void *addr, int num_bytes, csi_acc_prop_t prop);
+WEAK void __csi_after_load(void *addr, int num_bytes, csi_acc_prop_t prop);
+WEAK void __csi_before_store(void *addr, int num_bytes, csi_acc_prop_t prop);
+WEAK void __csi_after_store(void *addr, int num_bytes, csi_acc_prop_t prop);
 WEAK void __csi_func_entry(void *function, void *parentReturnAddr, char *funcName);
 WEAK void __csi_func_exit();
 WEAK void __csi_bb_entry(csi_id_t id);
