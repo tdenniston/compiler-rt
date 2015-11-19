@@ -4,6 +4,10 @@ ifeq ($(DEBUG), 0)
   CXXFLAGS += -O3
 endif
 
+ifeq ($(USE_PROPERTIES), 1)
+  CXXFLAGS += -DUSE_PROPERTIES
+endif
+
 # For interception. FIXME: move interception one level higher.
 INTERCEPTION=../../interception
 COMMON=../../sanitizer_common
