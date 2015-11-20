@@ -1,5 +1,10 @@
 CXXFLAGS = -std=c++11 -fPIE -g -Wall -Werror -fno-builtin -msse3 -DSANITIZER_DEBUG=0 -DTSAN_CONTAINS_UBSAN=0
 CLANG=clang
+DEBUG=0
+
+CXX=$(COMPILER_HOME)/bin/clang++
+AR=/data/scratch/tyler/csi/bin-intercept/ar
+
 ifeq ($(DEBUG), 0)
   CXXFLAGS += -O3
 endif
@@ -24,19 +29,19 @@ ifeq ($(CXX), g++)
 endif  # CXX=g++
 endif  # DEBUG=0
 
-ifeq ($(CXX), $(CLANG)++)
+#ifeq ($(CXX), $(CLANG)++)
   # Global constructors are banned.
   CXXFLAGS+=-Wglobal-constructors
-endif
+#endif
 
 
 
-all: libtsan.a
+all: libtsan.a csi_interface.o
 
 LIBTSAN_HEADERS=$(wildcard *.h) \
 		$(wildcard $(INTERCEPTION)/*.h) \
 		$(wildcard $(COMMON)/*.h)
-LIBTSAN_SRC=$(wildcard *.cc)
+LIBTSAN_SRC=$(filter-out csi_interface.cc,$(wildcard *.cc))
 LIBTSAN_ASM_SRC=$(wildcard *.S)
 INTERCEPTION_SRC=$(wildcard $(INTERCEPTION)/*.cc)
 COMMON_SRC=$(filter-out $(wildcard $(COMMON)/*_nolibc.cc),$(wildcard $(COMMON)/*.cc))
@@ -57,11 +62,14 @@ LIBTSAN_OBJ=$(patsubst %.cc,%.o,$(LIBTSAN_SRC)) \
 %.o: %.S
 	$(CXX) $(INCLUDES) -o $@ -c $<
 
+csi_interface.o: csi_interface.cc
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(NO_SYSROOT) -c -emit-llvm $< -o $@
+
 libtsan.a: $(LIBTSAN_OBJ)
-	ar ru $@ $(LIBTSAN_OBJ)
+	$(AR) ru $@ $(LIBTSAN_OBJ)
 
 libtsan_dummy.a: tsan_dummy_rtl.o
-	ar ru $@ $<
+	$(AR) ru $@ $<
 
 clean:
 	rm -f *.o *.a

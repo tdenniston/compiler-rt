@@ -8,9 +8,8 @@ TSAN_DIR=..
 
 INSTRUMENTATION ?= none
 
-include myconfig.mk
-CC=clang
-CXX=clang++
+CC=$(COMPILER_HOME)/bin/clang
+CXX=$(COMPILER_HOME)/bin/clang++
 
 CFLAGS_Instrumentation_none =
 CFLAGS_Instrumentation_tsan = -fsanitize=thread
@@ -18,13 +17,18 @@ CFLAGS_Instrumentation_csi = -fcsi
 
 CFLAGS += ${CFLAGS_Instrumentation_${INSTRUMENTATION}}
 CFLAGS += -O3 -emit-llvm
-LDFLAGS += -O3 -flto -ldl -lpthread -lrt -lm -Wl,--whole-archive $(TSAN_DIR)/rtl/libtsan.a -Wl,--no-whole-archive
+LDFLAGS += -B/usr/lib/gold-ld -O3 -flto -ldl -lpthread -lrt -lm -Wl,--whole-archive $(TSAN_DIR)/rtl/libtsan.a -Wl,--no-whole-archive
+
+TOOL=
+ifeq ($(INSTRUMENTATION), csi)
+TOOL=../rtl/csi_interface.o
+endif
 
 %.o : %.cc
-	$(CXX) -c $(CFLAGS) $^ -o $@
+	$(CXX) -c $(CFLAGS) $^ -o obj/$@
 
 % : %.o
-	$(CXX) $(LDFLAGS) $^ -o $@
+	$(CXX) $(LDFLAGS) obj/$^ $(TOOL) -o $@
 
 .PHONY : clean
 clean:

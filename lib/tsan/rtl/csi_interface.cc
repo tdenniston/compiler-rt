@@ -31,30 +31,37 @@ typedef struct {
   u64 id;
 } csi_id_t;
 
-extern "C" void __csi_init(csi_info_t info) {
+//extern "C" void __csi_init(csi_info_t info) {
+extern "C" void __csi_init(u32 num_modules) {
     Initialize(cur_thread());
 }
-extern "C" void __csi_before_load(void *addr, int num_bytes, csi_acc_prop_t prop) {
+//extern "C" void __csi_before_load(void *addr, int num_bytes, csi_acc_prop_t prop) {
+extern "C" void __csi_before_load(void *addr, int num_bytes, unsigned unused, bool unused2, bool unused3, bool read_before_write_in_bb) {
 #ifdef USE_PROPERTIES
-    if (!prop.read_before_write_in_bb)
+    if (!read_before_write_in_bb)
         UnalignedMemoryAccess(cur_thread(), CALLERPC, (uptr)addr, num_bytes, false, false);
 #else
     UnalignedMemoryAccess(cur_thread(), CALLERPC, (uptr)addr, num_bytes, false, false);
 #endif
 }
-extern "C" void __csi_after_load(void *addr, int num_bytes, csi_acc_prop_t prop) {
+//extern "C" void __csi_after_load(void *addr, int num_bytes, csi_acc_prop_t prop) {
+extern "C" void __csi_after_load(void *addr, int num_bytes, unsigned unused, bool unused2, bool unused3, bool read_before_write_in_bb) {
 }
-extern "C" void __csi_before_store(void *addr, int num_bytes, csi_acc_prop_t prop) {
+//extern "C" void __csi_before_store(void *addr, int num_bytes, csi_acc_prop_t prop) {
+extern "C" void __csi_before_store(void *addr, int num_bytes, unsigned unused, bool unused2, bool unused3, bool read_before_write_in_bb) {
     UnalignedMemoryAccess(cur_thread(), CALLERPC, (uptr)addr, num_bytes, true, false);
 }
-extern "C" void __csi_after_store(void *addr, int num_bytes, csi_acc_prop_t prop) {
+//extern "C" void __csi_after_store(void *addr, int num_bytes, csi_acc_prop_t prop) {
+extern "C" void __csi_after_store(void *addr, int num_bytes, unsigned unused, bool unused2, bool unused3, bool read_before_write_in_bb) {
 }
-extern "C" void __csi_func_entry(void *parentReturnAddr, char *funcName) {
+extern "C" void __csi_func_entry(void *function, void *parentReturnAddr, char *funcName) {
     FuncEntry(cur_thread(), (uptr)parentReturnAddr);
 }
 extern "C" void __csi_func_exit() {
     FuncExit(cur_thread());
 }
-extern "C" void __csi_module_init(csi_module_info_t info) {}
-extern "C" void __csi_bb_entry(csi_id_t id) {}
+//extern "C" void __csi_module_init(csi_module_info_t info) {}
+extern "C" void __csi_module_init(u32 module_id, u64 num_basic_blocks) {}
+//extern "C" void __csi_bb_entry(csi_id_t id) {}
+extern "C" void __csi_bb_entry(u32 module_id, u64 id) {}
 extern "C" void __csi_bb_exit() {}

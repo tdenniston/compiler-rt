@@ -3,15 +3,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <stdint.h>
 
 int len;
 int *a;
-const int kNumIter = 5000;
+const int kNumIter = 500;
 
 __attribute__((noinline))
 void Run(int idx) {
-  for (int i = 0, n = len; i < n; i++)
-    a[i + idx * n]++;
+    for (int i = 0, n = len; i < n; i++) {
+        uint64_t j = i + idx * n;
+        unsigned realidx = (j*j) % n;
+        a[realidx + idx * n]++;
+    }
 }
 
 void *Thread(void *arg) {
