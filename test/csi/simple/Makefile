@@ -15,7 +15,7 @@ $(TOOLKIT)/%.o: $(TOOLKIT)/%.c
 
 include ../common.mk
 
-EXTRA = -emit-llvm -fcsi -O3
+EXTRA = -emit-llvm -fcsi -O3 -g
 CFLAGS += $(EXTRA)
 CXXFLAGS += $(EXTRA)
 
@@ -26,6 +26,13 @@ TOOL_OBJ = $(patsubst %,$(TOOLKIT)/%.o,$(TOOL))
 
 ifeq ($(TOOL), call-graph)
 LDFLAGS += `pkg-config --libs --cflags glib-2.0`
+endif
+
+ifeq ($(TOOL), gprof_tool)
+CFLAGS += -fno-omit-frame-pointer
+CXXFLAGS += -fno-omit-frame-pointer
+EXTRA += -fno-omit-frame-pointer
+LDFLAGS += -pg
 endif
 
 fib-serial: fib-serial.o $(TOOL_OBJ)
